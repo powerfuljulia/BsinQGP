@@ -30,7 +30,13 @@ mkdir mc_validation
 mkdir mc_validation/sideband_sub  
 
 To run:  
-sideband_sub  
+sideband_sub
+
+Some important git commands:
+
+git add <file>
+git commit -am "comment"
+git push  
  
 
 
