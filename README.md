@@ -34,8 +34,8 @@ sideband_sub
 
 Some important git commands:
 
-git add <file>
-git commit -am "comment"
+git add <file>  
+git commit -am "comment"  
 git push  
  
 
