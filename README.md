@@ -34,10 +34,18 @@ sideband_sub
 
 Some important git commands:
 
-git add [file]  
-git commit -am "comment"  
-git push  
- 
+
+1. git add [files]  
+
+2. git commit -m ["message"]  
+
+3. git push origin master (vai online)  
+
+Create remote repository and import files  
+
+1. git remote add [repository name] [repository address]  
+
+2. git pull [repository name] 
 
 
 
