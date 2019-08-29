@@ -86,6 +86,13 @@ Double_t   BDT_pt_5_10[MAX_XB];
 Double_t  BDT_pt_10_15[MAX_XB];
 Double_t  BDT_pt_15_20[MAX_XB];
 Double_t  BDT_pt_20_50[MAX_XB];
+Double_t   BDT_5_7[MAX_XB];
+Double_t  BDT_7_10[MAX_XB];
+Double_t  BDT_10_15[MAX_XB];
+Double_t  BDT_15_20[MAX_XB];
+Double_t  BDT_20_30[MAX_XB];
+Double_t  BDT_30_50[MAX_XB];
+Double_t  BDT_50_100[MAX_XB];
 
 //Adicionados para o B+
 
@@ -190,6 +197,13 @@ nt->SetBranchAddress("BDT_pt_5_10", BDT_pt_5_10);
 nt->SetBranchAddress("BDT_pt_10_15", BDT_pt_10_15);
 nt->SetBranchAddress("BDT_pt_15_20", BDT_pt_15_20);
 nt->SetBranchAddress("BDT_pt_20_50", BDT_pt_20_50);
+nt->SetBranchAddress("BDT_5_7", BDT_5_7);
+nt->SetBranchAddress("BDT_7_10", BDT_7_10);
+nt->SetBranchAddress("BDT_10_15", BDT_10_15);
+nt->SetBranchAddress("BDT_15_20", BDT_15_20);
+nt->SetBranchAddress("BDT_20_30", BDT_20_30);
+nt->SetBranchAddress("BDT_30_50", BDT_30_50);
+nt->SetBranchAddress("BDT_50_100", BDT_50_100);
 
 }
 

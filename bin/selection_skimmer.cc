@@ -20,6 +20,7 @@
 bool test=false;
 bool optimized=true;
 
+
 using namespace std;
 //pp:csyst=1, PbPb:csyst=2
 void data_selection(TString fin1,TString data_selection_output_file, int csyst, int mc, int channel);
@@ -59,7 +60,7 @@ int main(int argc, char *argv[]){
   TString output_file_PbPb= "/home/t3cms/julia/LSTORE/CMSSW_7_5_8_patch5/src/UserCode/Bs_analysis/prefiltered_trees/selected_data_" + channel_to_ntuple_name(channel) + "_PbPb_2018_corrected_test_train.root";
   TString output_file_pp_mc= "/exper-sw/cmst3/cmssw/users/julia/CMSSW_7_5_8_patch5/src/UserCode/Bs_analysis/mc_for_central_code/selected_mc_ntphi_pp.root";
   TString input_file_pp_mc = "/lstore/cms/julia/pp_files/loop_Bs0_pthat5_bstojpsiphi_pp.root";
-  TString output_file_PbPb_mc= "/home/t3cms/julia/LSTORE/CMSSW_7_5_8_patch5/src/UserCode/Bs_analysis/prefiltered_trees/selected_mc_" + channel_to_ntuple_name(channel) + "_PbPb_2018_corrected_test_train_nocuts.root";
+  TString output_file_PbPb_mc= "/home/t3cms/julia/LSTORE/CMSSW_7_5_8_patch5/src/UserCode/Bs_analysis/prefiltered_trees/selected_mc_" + channel_to_ntuple_name(channel) + "_PbPb_2018_corrected_nocuts_BDT.root";
 //  TString input_file_PbPb_mc = "/lstore/cms/julia/crab_Bfinder_20190221_Pythia8_BuToJpsiK_Bpt0p0_1032_NoJSON_pthatweight_hardcut_v2.root";
   std::cout<<"channel= "<<channel<<std::endl;
   TString input_file_PbPb;
@@ -69,8 +70,8 @@ int main(int argc, char *argv[]){
         input_file_PbPb = "/lstore/cms/julia/corrected_samples/Data_Bs_PbPb_TMVA_BDT_PbPb.root";
         input_file_PbPb_mc  = "/lstore/cms/julia/after_training_check/MC_Bs_PbPb_TMVA_BDT_PbPb.root";
       case 1:
-        input_file_PbPb = "/lstore/cms/julia/corrected_samples/crab_Bfinder_20190513_HIDoubleMuon__PsiPeri__HIRun2018A_04Apr2019_v1_1033p1_GoldenJSON_skimhltBsize_ntKp.root";
-        input_file_PbPb_mc = "/lstore/cms/julia/corrected_samples/NewMCBPlus.root";
+        input_file_PbPb = "root /lstore/cms/julia/after_training_check/crab_Bfinder_20190513_HIDoubleMuon__PsiPeri__HIRun2018A_04Apr2019_v1_1033p1_GoldenJSON_skimhltBsize_ntKp_BDT.root ";
+        input_file_PbPb_mc = "/lstore/cms/julia/after_training_check/crab_Bfinder_20190624_Hydjet_Pythia8_Official_BuToJpsiK_1033p1_pt3tkpt0p7dls2_allpthat_pthatweight_BDT.root";
         break;
       case 4:
         input_file_PbPb = "/lstore/cms/julia/corrected_samples/Data_Bs_PbPb_TMVA_BDT_PbPb.root ";
@@ -123,6 +124,7 @@ void data_selection(TString fin1, TString data_selection_output_file, int csyst,
   std::cout<<"Got skim"<<std::endl;
   t1->AddFriend("hiEvtAnalyzer/HiTree");
   std::cout<<"Got hiEvt"<<std::endl;
+  t1->AddFriend("BDT");
   t1->AddFriend("BDT_pt_5_10");  
   t1->AddFriend("BDT_pt_10_15");  
   t1->AddFriend("BDT_pt_15_20");  
@@ -168,6 +170,11 @@ void data_selection(TString fin1, TString data_selection_output_file, int csyst,
   Double_t bdt_pt_10_15;
   Double_t bdt_pt_15_20;
   Double_t bdt_pt_20_50;
+  Double_t bdt_pt_5_7;
+  Double_t bdt_pt_7_10;
+  Double_t bdt_pt_20_30;
+  Double_t bdt_pt_30_50;
+  Double_t bdt_pt_50_100;
   Float_t bgenpt;
   Double_t centweight;
   Int_t HiBin;
@@ -213,15 +220,21 @@ void data_selection(TString fin1, TString data_selection_output_file, int csyst,
     t4->Branch("PVz", &pVz);
     t4->Branch("CentWeight", &centweight);
     t4->Branch("Bgenpt", &bgenpt);
-  t4->Branch("BDT_pt_5_10", &bdt_pt_5_10);
-  t4->Branch("BDT_pt_10_15", &bdt_pt_10_15);
-  t4->Branch("BDT_pt_15_20", &bdt_pt_15_20);
-  t4->Branch("BDT_pt_20_50", &bdt_pt_20_50);
+    t4->Branch("BDT_pt_5_10", &bdt_pt_5_10);
+    t4->Branch("BDT_pt_10_15", &bdt_pt_10_15);
+    t4->Branch("BDT_pt_15_20", &bdt_pt_15_20);
+    t4->Branch("BDT_pt_20_50", &bdt_pt_20_50);
+    t4->Branch("BDT_pt_5_7", &bdt_pt_5_7);
+    t4->Branch("BDT_pt_7_10", &bdt_pt_7_10);
+    t4->Branch("BDT_pt_20_30", &bdt_pt_20_30);
+    t4->Branch("BDT_pt_30_50", &bdt_pt_30_50);
+    t4->Branch("BDT_pt_50_100", &bdt_pt_50_100);
     std::cout<<"Loop over events"<<std::endl;
   
   int count=0;
 //  for (int evt=0;evt<10000;evt++) {
-  for (int evt=0;evt<(t1->GetEntries());evt++) {
+   for (int evt=0;evt<10000;evt++) {
+//    for (int evt=0;evt<(t1->GetEntries());evt++) {
 //  for (int evt=0;evt<5;evt++) {
   //  scan_file<<"*********************** EVT = "<<endl;
     t1->GetEntry(evt);
@@ -283,9 +296,14 @@ void data_selection(TString fin1, TString data_selection_output_file, int csyst,
         vtxY = BvtxY[i];
         trk2eta=0;
         trk2pt=0;
+        bdt_pt_5_7=BDT_5_7[i];
+        bdt_pt_7_10=BDT_7_10[i];
+        bdt_pt_10_15=BDT_10_15[i];
+        bdt_pt_15_20=BDT_15_20[i];
+        bdt_pt_20_30=BDT_20_30[i];
+        bdt_pt_30_50=BDT_30_50[i];
+        bdt_pt_50_100=BDT_50_100[i];
         bdt_pt_5_10=0;
-        bdt_pt_10_15=0;
-        bdt_pt_15_20=0;
         bdt_pt_20_50=0;
 
       }
@@ -305,6 +323,11 @@ void data_selection(TString fin1, TString data_selection_output_file, int csyst,
         bdt_pt_10_15=BDT_pt_10_15[i];
         bdt_pt_15_20=BDT_pt_15_20[i];
         bdt_pt_20_50=BDT_pt_20_50[i];
+        bdt_pt_5_7=0;
+        bdt_pt_7_10=0;
+        bdt_pt_20_30=0;
+        bdt_pt_30_50=0;
+        bdt_pt_50_100=0;
       }
       /*trk1Dz=Btrk1Dz[i];
       trk2Dz=Btrk2Dz[i];*/
