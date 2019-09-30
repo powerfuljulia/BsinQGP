@@ -86,7 +86,7 @@ Double_t   BDT_pt_5_10[MAX_XB];
 Double_t  BDT_pt_10_15[MAX_XB];
 Double_t  BDT_pt_15_20[MAX_XB];
 Double_t  BDT_pt_20_50[MAX_XB];
-Double_t   BDT_5_7[MAX_XB];
+Double_t  BDT_5_7[MAX_XB];
 Double_t  BDT_7_10[MAX_XB];
 Double_t  BDT_10_15[MAX_XB];
 Double_t  BDT_15_20[MAX_XB];
