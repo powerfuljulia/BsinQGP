@@ -8,6 +8,7 @@ export SCRAM_ARCH=slc6_amd64_gcc700
 cmsrel CMSSW_10_3_1_patch3  
 cd CMSSW_10_3_1_patch3/src  
 mkdir UserCode  
+cd UserCode
 git clone [repo]  
 mkdir prefiltered_trees  
 
